@@ -4,9 +4,9 @@ from .models import Grade
 
 
 class GradeSerializer(serializers.ModelSerializer):
-    students = serializers.StringRelatedField(many=True, read_only=True)#da un listado de estudiantes que pertenecen a este grado
+    # students = serializers.StringRelatedField(many=True, read_only=True)#da un listado de estudiantes que pertenecen a este grado
     class Meta:
         model = Grade
-        fields = ['id', 'name', 'enrollment','monthly_pay', 'deleted', 'students']
+        fields = ['id', 'name', 'enrollment','monthly_pay', 'deleted']
     
 
