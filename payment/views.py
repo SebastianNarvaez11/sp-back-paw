@@ -19,6 +19,7 @@ def list_payments_for_students(request):
 # CON ESTA VISTA ESTAMOS CREANDO LOS pagos
 @api_view(['POST'])
 def create_payment(request):
+    print(request.data)
     rq_data = request.data.dict()
     if rq_data['state_pol'] == '4':
         data = {'value': rq_data['value'],
