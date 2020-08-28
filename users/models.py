@@ -74,7 +74,7 @@ class Student(models.Model):
     grade = models.ForeignKey(Grade, verbose_name='Grado', on_delete=models.CASCADE,related_name='students', blank=True, null=True)
     document_type = models.PositiveSmallIntegerField('Tipo de Documento', choices=DOCUMENT_TYPE_CHOICES, default=1)
     document = models.CharField('No. de Documento', max_length=20)
-    attending = models.CharField('Acudiente', max_length=30)
+    attending = models.CharField('Acudiente', max_length=100)
     discount = models.IntegerField('% Descuento Mensual', default=0)
     initial_charge = models.PositiveSmallIntegerField('Periodo de Cobro', choices=INITIAL_CHARGE_CHOICES, default=10)
     coverage = models.BooleanField('Cobertura', default=False)
