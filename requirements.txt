@@ -4,7 +4,6 @@ cffi==1.14.0
 chardet==3.0.4
 cryptography==2.8
 idna==2.8
-menuinst==1.4.16
 mysql-connector-python==8.0.20
 pycosat==0.6.3
 pycparser==2.19
