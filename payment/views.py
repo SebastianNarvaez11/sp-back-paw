@@ -6,12 +6,12 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 from .models import Payment
 
-# Create your views here.
+# CON ESTA VISTA ESTAMOS OBTENIENDO LOS PAGOS POR ESTUDIANTE
 @api_view(['GET'])
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
-def list_payments_for_students(request):
-    pay = Payment.objects.filter(student__id=request.user.student.id)
+def list_payments_for_students(request, pk):
+    pay = Payment.objects.filter(student__id=pk)
     serializer = PaymentSerializer(pay, many=True)
     return Response(serializer.data)
 
