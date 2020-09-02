@@ -1,7 +1,7 @@
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.response import Response
 from rest_framework import status
-from .serializers import PaymentGetSerializer, PaymentSerializer
+from .serializers import PaymentSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 from .models import Payment
@@ -12,7 +12,7 @@ from .models import Payment
 @permission_classes([IsAuthenticated])
 def list_payments_for_students(request):
     pay = Payment.objects.filter(student__id=request.user.student.id)
-    serializer = PaymentGetSerializer(pay, many=True)
+    serializer = PaymentSerializer(pay, many=True)
     return Response(serializer.data)
 
 
