@@ -28,7 +28,8 @@ class StudentGetSerializer(serializers.ModelSerializer):
     class Meta:
         model = Student
         fields = ['id', 'user', 'grade', 'document_type', 'document',
-                  'attending', 'discount', 'initial_charge', 'coverage', 'schedule', 'total_year', 'total_paid', 'monthly_payment']
+                  'attending', 'discount', 'initial_charge', 'coverage', 
+                  'schedule', 'total_year', 'total_paid', 'monthly_payment']
 
 
 # serializer para CREAR Y ACTUALIZAR los students ya que se necesita solo el id del grado y usuario para relacionarlo
