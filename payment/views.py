@@ -7,7 +7,7 @@ from rest_framework.authentication import TokenAuthentication
 from .models import Payment
 
 # CON ESTA VISTA ESTAMOS OBTENIENDO LOS PAGOS POR ESTUDIANTE
-@api_view(['GET'])
+@api_view(['GET','PUT'])
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def list_payments_for_students(request, pk):
