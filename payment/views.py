@@ -7,11 +7,13 @@ from rest_framework.authentication import TokenAuthentication
 from .models import Payment
 
 # CON ESTA VISTA ESTAMOS OBTENIENDO LOS PAGOS POR ESTUDIANTE
-@api_view(['GET','PUT'])
-
+@api_view(['GET'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def list_payments_for_students(request, pk):
-    pay = Payment.objects.filter(student__id=pk)
-    serializer = PaymentSerializer(pay, many=True)
+    pays = Payment.objects.filter(student__id=pk)
+    print(pays)
+    serializer = PaymentSerializer(pays, many=True)
     return Response(serializer.data)
 
 
