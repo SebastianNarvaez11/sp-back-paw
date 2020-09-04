@@ -41,7 +41,7 @@ class StudentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Student
         fields = ['id', 'user', 'grade', 'document_type', 'document',
-                  'attending', 'discount', 'initial_charge', 'coverage', 'schedule'
+                  'attending', 'discount', 'initial_charge', 'coverage', 'schedule',
                   'total_year', 'total_paid', 'monthly_payment']
 
 
