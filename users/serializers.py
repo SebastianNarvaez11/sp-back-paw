@@ -35,10 +35,14 @@ class StudentGetSerializer(serializers.ModelSerializer):
 # serializer para CREAR Y ACTUALIZAR los students ya que se necesita solo el id del grado y usuario para relacionarlo
 # el password no es requerido para la actualizacion
 class StudentSerializer(serializers.ModelSerializer):
+    total_year = serializers.IntegerField(read_only=True)
+    total_paid = serializers.IntegerField(read_only=True)
+    monthly_payment = serializers.IntegerField(read_only=True)
     class Meta:
         model = Student
         fields = ['id', 'user', 'grade', 'document_type', 'document',
-                  'attending', 'discount', 'initial_charge', 'coverage', 'schedule']
+                  'attending', 'discount', 'initial_charge', 'coverage', 'schedule'
+                  'total_year', 'total_paid', 'monthly_payment']
 
 
 # SERIALIZER PARA OBTENER USUARIOS AL INICIAR SECCION Y GENERAR LOS LISTADOS, PARA QUE
