@@ -17,7 +17,7 @@ def list_payments_for_students(request, pk):
     return Response(serializer.data)
 
 
-# CON ESTA VISTA ESTAMOS CREANDO LOS pagos
+# CON ESTA VISTA ESTAMOS CREANDO LOS DESDE PAYU
 @api_view(['POST'])
 def create_payment(request):
     print(request.data)
@@ -32,4 +32,16 @@ def create_payment(request):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+# Vista para la creacion de pagos manuales
+@api_view(['POST'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def create_payment_manual(request):
+    serializer = PaymentSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
