@@ -45,7 +45,7 @@ def create_payment_manual(request):
         # se crea el pago
         serializer.save()
         # se busca al estudiante relacionado
-        user = User.objects.get(student__id=request.data.student)
+        user = User.objects.get(student__id=request.data['student'])
         user_serializer = UserSerializer(user)
         # se crea la nueva data, el pago creado, junto al estudiante actualzado
         data = {'payment': serializer.data, 'student' : user_serializer.data}
