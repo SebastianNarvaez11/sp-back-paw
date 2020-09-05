@@ -2,9 +2,11 @@ from rest_framework.decorators import api_view, permission_classes, authenticati
 from rest_framework.response import Response
 from rest_framework import status
 from .serializers import PaymentSerializer
+from users.serializers import UserSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 from .models import Payment
+from users.models import User
 
 # CON ESTA VISTA ESTAMOS OBTENIENDO LOS PAGOS POR ESTUDIANTE
 @api_view(['GET'])
@@ -37,11 +39,15 @@ def create_payment(request):
 
 # Vista para la creacion de pagos manuales
 @api_view(['POST'])
-@authentication_classes([TokenAuthentication])
-@permission_classes([IsAuthenticated])
 def create_payment_manual(request):
     serializer = PaymentSerializer(data=request.data)
     if serializer.is_valid():
+        # se crea el pago
         serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        # se busca al estudiante relacionado
+        user = User.objects.get(student__id=request.data.dict()['student'])
+        user_serializer = UserSerializer(user)
+        # se crea la nueva data, el pago creado, junto al estudiante actualzado
+        data = {'payment': serializer.data, 'student' : user_serializer.data}
+        return Response(data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
