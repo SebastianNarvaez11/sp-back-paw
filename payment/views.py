@@ -57,6 +57,8 @@ def create_payment_manual(request):
 
 # vista para borrar pagos manuales
 @api_view(['DELETE'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def delete_payment_manual(request, pk):
     try:
         payment = Payment.objects.get(pk=pk)
@@ -66,4 +68,4 @@ def delete_payment_manual(request, pk):
     user = User.objects.get(student__id=payment.student.id)
     user_serializer = UserSerializer(user)
     payment.delete()
-    return Response(user_serializer.data, status=status.HTTP_204_NO_CONTENT)
+    return Response(user_serializer.data, status=status..HTTP_200_OK)
