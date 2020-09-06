@@ -65,7 +65,7 @@ def delete_payment_manual(request, pk):
     except Payment.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
-    user = User.objects.get(student__id=request.data['student'])
+    user = User.objects.get(student__id=payment.student.id)
     user_serializer = UserSerializer(user)
     payment.delete()
     return Response(user_serializer.data, status=status.HTTP_204_NO_CONTENT)
