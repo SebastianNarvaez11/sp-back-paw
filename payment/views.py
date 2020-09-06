@@ -67,5 +67,6 @@ def delete_payment_manual(request, pk):
 
     user = User.objects.get(student__id=payment.student.id)
     user_serializer = UserSerializer(user)
+    data = {'student': user_serializer.data}
     payment.delete()
-    return Response(user_serializer.data, status=status.HTTP_204_NO_CONTENT)
+    return Response(data, status=status.HTTP_204_NO_CONTENT)
