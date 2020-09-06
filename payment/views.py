@@ -39,6 +39,8 @@ def create_payment(request):
 
 # Vista para la creacion de pagos manuales
 @api_view(['POST'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def create_payment_manual(request):
     serializer = PaymentSerializer(data=request.data)
     if serializer.is_valid():
@@ -48,6 +50,22 @@ def create_payment_manual(request):
         user = User.objects.get(student__id=request.data['student'])
         user_serializer = UserSerializer(user)
         # se crea la nueva data, el pago creado, junto al estudiante actualzado
-        data = {'payment': serializer.data, 'student' : user_serializer.data}
+        data = {'payment': serializer.data, 'student': user_serializer.data}
         return Response(data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+# vista para borrar pagos manuales
+@api_view(['DELETE'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def delete_payment_manual(request, pk):
+    try:
+        payment = Payment.objects.get(pk=pk)
+    except Payment.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    user = User.objects.get(student__id=request.data['student'])
+    user_serializer = UserSerializer(user)
+    payment.delete()
+    return Response(user_serializer.data, status=status.HTTP_204_NO_CONTENT)
