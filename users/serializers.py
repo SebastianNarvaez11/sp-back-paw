@@ -27,7 +27,7 @@ class StudentGetSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Student
-        fields = ['id', 'user', 'grade', 'document_type', 'document',
+        fields = ['id', 'user', 'grade','code','phone1','phone2', 'document_type', 'document',
                   'attending', 'discount', 'initial_charge', 'coverage', 
                   'schedule', 'total_year', 'total_paid', 'monthly_payment']
 
@@ -40,7 +40,7 @@ class StudentSerializer(serializers.ModelSerializer):
     monthly_payment = serializers.IntegerField(read_only=True)
     class Meta:
         model = Student
-        fields = ['id', 'user', 'grade', 'document_type', 'document',
+        fields = ['id', 'user', 'grade', 'document_type', 'document', 'code','phone1','phone2',
                   'attending', 'discount', 'initial_charge', 'coverage', 'schedule',
                   'total_year', 'total_paid', 'monthly_payment']
 

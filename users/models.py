@@ -3,6 +3,7 @@ from base.models import Base
 from school.models import Grade
 from django.contrib.auth.models import AbstractUser
 from base.utils import get_guid
+import uuid
 
 # Create your models here.
 
@@ -70,8 +71,11 @@ class Student(models.Model):
         (2, 'Oct.Nov'),)
 
     id = models.CharField(primary_key=True, blank=True, max_length=40, verbose_name="ID")
+    code = models.IntegerField('Codigo', unique=True, blank=True, null=True)
     user = models.OneToOneField(User, verbose_name='Usuario', related_name='student', on_delete=models.CASCADE)
     grade = models.ForeignKey(Grade, verbose_name='Grado', on_delete=models.CASCADE,related_name='students', blank=True, null=True)
+    phone1 = models.CharField('Telefono 1', max_length=11, null=True, blank=True)
+    phone2 = models.CharField('Telefono 2', max_length=11, null=True, blank=True)
     document_type = models.PositiveSmallIntegerField('Tipo de Documento', choices=DOCUMENT_TYPE_CHOICES, default=1)
     document = models.CharField('No. de Documento', max_length=20)
     attending = models.CharField('Acudiente', max_length=100)
@@ -99,11 +103,15 @@ class Student(models.Model):
     
     def monthly_payment(self):
         return self.grade.monthly_pay - ((self.grade.monthly_pay * self.discount)/100)
+    
+
 
     def save(self, force_insert=False, force_update=False, update_fields=None, using=None, request=None):
         is_new = False
         if not self.id:
             is_new = True
             self.id = get_guid()
+            self.code = Student.objects.count() + 1
+            
         super(Student, self).save(force_insert,
                                   force_update, using, update_fields)
