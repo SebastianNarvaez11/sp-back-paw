@@ -28,7 +28,8 @@ SECRET_KEY = config("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['schoolpay.pythonanywhere.com', ".herokuapp.com", 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['schoolpay.pythonanywhere.com',
+                 ".herokuapp.com", 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -46,6 +47,7 @@ INSTALLED_APPS = [
     'school',
     'payment',
     'authentication',
+    'contact',
     'django_userforeignkey',
     'rest_framework',
     'rest_framework.authtoken',
@@ -154,7 +156,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_STORAGE='whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # media config
 MEDIA_URL = '/media/'
@@ -194,3 +196,13 @@ REST_AUTH_REGISTER_SERIALIZERS = {
 }
 
 IMPORT_EXPORT_USE_TRANSACTIONS = True
+
+# if DEBUG:
+#     EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
+#     EMAIL_FILE_PATH = os.path.join(BASE_DIR, "sent_emails")
+# else:
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_HOST_USER = "testing.developer.404@gmail.com"
+EMAIL_HOST_PASSWORD = 'xxjhrprkiiawltht'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
