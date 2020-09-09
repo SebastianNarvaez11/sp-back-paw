@@ -25,7 +25,7 @@ def send_email(request):
                 'Colegio Ejemplo', 'colegio@gmail.com', contend),  # estructura del mensaje
             "testing.developer.404@gmail.com",  # email de origen
             [str(email_destination)],  # email de destino
-            reply_to=[email]
+            reply_to=[email_destination]
         )
         try:
             email.send()
