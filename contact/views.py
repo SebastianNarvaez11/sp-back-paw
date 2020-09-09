@@ -16,13 +16,13 @@ def send_email(request):
     serializer = EmailSerializer(data=request.data)
     if serializer.is_valid():
         email_destination = request.data['email_destination']
-        contend = request.data['contend']
+        content = request.data['content']
 
         # ENVIAMOS EL CORREO
         email = EmailMessage(
             "Colegio Ejemplo - Circular Financiera",  # Asunto del mensaje
             "Remitente: {} \nEmail: <{}> \n\nEscribio: \n\n{} ".format(
-                'Colegio Ejemplo', 'colegio@gmail.com', contend),  # estructura del mensaje
+                'Colegio Ejemplo', 'colegio@gmail.com', content),  # estructura del mensaje
             "testing.developer.404@gmail.com",  # email de origen
             [str(email_destination)],  # email de destino
             reply_to=[email_destination]
