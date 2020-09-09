@@ -16,7 +16,7 @@ def send_email(request):
     serializer = EmailSerializer(data=request.data)
     if serializer.is_valid():
         email_destination = request.data['email_destination']
-        contend = request.data['email_destination']
+        contend = request.data['contend']
 
         # ENVIAMOS EL CORREO
         email = EmailMessage(
