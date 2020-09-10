@@ -1,7 +1,7 @@
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.response import Response
 from rest_framework import status
-from .serializers import EmailSerializer
+from .serializers import EmailSerializer, SmsSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 from django.core.mail import EmailMessage
@@ -14,23 +14,28 @@ from twilio.rest import Client
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def send_sms(request):
-    account_sid = 'ACaaf5d8fb4c1df5e8ea2a9f75ea2701f3'
-    auth_token = 'ac9425d85a5055a17fe3d98f34d4844e'
-    client = Client(account_sid, auth_token)
+    serializer = SmsSerializer(data=request.data)
+    if serializer.is_valid():
+        sms = request.data['sms']
+        phone_to = request.data['phone_to']
 
-    try:
-        message = client.messages.create(
-            body='Hola Sebas, lo lograste',
-            from_='+14702643943',
-            to='+573188524067'
-        )
+        account_sid = 'ACaaf5d8fb4c1df5e8ea2a9f75ea2701f3'
+        auth_token = 'ac9425d85a5055a17fe3d98f34d4844e'
+        client = Client(account_sid, auth_token)
+
+        try:
+            message = client.messages.create(
+                body=sms,
+                from_='+14702643943',
+                to=phone_to
+            )
+            print(message.sid)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+        except:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
         print(message.sid)
-        return Response(status=status.HTTP_200_OK)
-
-    except:
-        return Response(status=status.HTTP_400_BAD_REQUEST)
-
-    print(message.sid)
 
 
 # vista para enviar correos
