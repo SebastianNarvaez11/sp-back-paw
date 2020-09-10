@@ -7,6 +7,7 @@ from rest_framework.authentication import TokenAuthentication
 from django.core.mail import EmailMessage
 from twilio.rest import Client
 from decouple import config
+from django.conf import settings
 # Create your views here.
 
 
@@ -14,8 +15,8 @@ from decouple import config
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def send_sms(request):
-    account_sid = config("ACCOUNT_SID")
-    auth_token = config("AUTH_TOKEN")
+    account_sid = settings.ACCOUNT_SID
+    auth_token = settings.AUTH_TOKEN
     client = Client(account_sid, auth_token)
 
     try:

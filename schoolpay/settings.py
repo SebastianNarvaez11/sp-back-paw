@@ -206,3 +206,8 @@ EMAIL_HOST_USER = "testing.developer.404@gmail.com"
 EMAIL_HOST_PASSWORD = 'xxjhrprkiiawltht'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+
+
+# CLAVES PARA EL ENVIO DE SMS
+ACCOUNT_SID = config("ACCOUNT_SID")
+AUTH_TOKEN = config("AUTH_TOKEN")
