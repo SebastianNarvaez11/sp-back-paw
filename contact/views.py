@@ -20,7 +20,7 @@ def send_sms(request):
 
     try:
         message = client.messages.create(
-            body='Hola Sebas, lo lograste por segunda vez',
+            body='Hola Sebas, lo lograste por segunda vez!',
             from_='+14702643943',
             to='+573188524067'
         )
