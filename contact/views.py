@@ -5,9 +5,34 @@ from .serializers import EmailSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 from django.core.mail import EmailMessage
+from twilio.rest import Client
 # Create your views here.
 
 
+@api_view(['POST'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def send_sms(request):
+    account_sid = 'ACaaf5d8fb4c1df5e8ea2a9f75ea2701f3'
+    auth_token = 'ac9425d85a5055a17fe3d98f34d4844e'
+    client = Client(account_sid, auth_token)
+
+    try:
+        message = client.messages.create(
+            body='Hola Sebas, lo lograste',
+            from_='+14702643943',
+            to='+573188524067'
+        )
+        print(message.sid)
+        return Response(status=status.HTTP_200_OK)
+
+    except:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+
+    print(message.sid)
+
+
+# vista para enviar correos
 @api_view(['POST'])
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
