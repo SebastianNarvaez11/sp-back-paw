@@ -19,7 +19,7 @@ class User(AbstractUser, Base):
     class Meta:
         verbose_name = 'Usuario'
         verbose_name_plural = 'Usuarios'
-        ordering = ['-create']
+        ordering = ['last_name']
 
     def __str__(self):
         return self.first_name + ' ' + self.last_name
