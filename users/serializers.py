@@ -5,7 +5,7 @@ from rest_framework import serializers
 from base.validators import *
 from .models import Admin, User, Student
 from school.serializers import GradeSerializer
-
+from payment.serializers import PaymentSerializer
 # serializer para crear y actualizar los admin ya que resiven solo el id y no el objeto completo
 # el password no es requerido para la actualizacion
 
@@ -15,21 +15,98 @@ class AdminSerializer(serializers.ModelSerializer):
         model = Admin
         fields = ['id', 'user', 'position']
 
+################################################################################################################################################################
+# serializer para obtener las datos basicos al inicio para poder filtrar por estudiante
 
 
-# serializer para obtener los students ya que necesitamos el grado como objeto
-# el password no es requerido para la actualizacion
-class StudentGetSerializer(serializers.ModelSerializer):
-    total_year = serializers.IntegerField(read_only=True)
-    total_paid = serializers.IntegerField(read_only=True)
-    monthly_payment = serializers.IntegerField(read_only=True)
+class StudentListFilterSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Student
+        fields = ['id', 'code']
+
+# serializer para obtener las datos basicos al inicio para poder filtrar por estudiante
+
+
+class UserStudentFilterSerializer(serializers.ModelSerializer):
+    student = StudentListFilterSerializer()
+
+    class Meta:
+        model = User
+        fields = ['id', 'first_name', 'last_name', 'email', 'student']
+        extra_kwargs = {
+            'student': {'required': False}
+        }
+
+
+################################################################################################################################################################
+# serializer para obtener los todos estudiantes para el envio masivo de emails y sms, filtrados solo por el numero de meses en mora
+
+class StudentDebtSerializer(serializers.ModelSerializer):
     grade = GradeSerializer()
 
     class Meta:
         model = Student
-        fields = ['id', 'user', 'grade','code','phone1','phone2', 'document_type', 'document',
-                  'attending', 'discount', 'initial_charge', 'coverage', 
-                  'schedule', 'total_year', 'total_paid', 'monthly_payment']
+        fields = ['id', 'user', 'code', 'grade', 'monthOwed', 'amountOwed']
+
+
+class UserStudentDebtSerializer(serializers.ModelSerializer):
+    student = StudentDebtSerializer()
+
+    class Meta:
+        model = User
+        fields = ['id', 'first_name', 'last_name', 'email', 'student']
+        extra_kwargs = {
+            'student': {'required': False}
+        }
+
+################################################################################################################################################################
+# serializer para obtener el listado filtrado por grados de estudiantes sin  los pagos
+class StudentGradeFilterSerializer(serializers.ModelSerializer):
+    total_year = serializers.IntegerField(read_only=True)
+    total_paid = serializers.IntegerField(read_only=True)
+    monthly_payment = serializers.IntegerField(read_only=True)
+    monthOwed = serializers.IntegerField(read_only=True)
+    amountOwed = serializers.IntegerField(read_only=True)
+    grade = GradeSerializer()
+
+    class Meta:
+        model = Student
+        fields = ['id', 'user', 'code', 'grade', 'phone1', 'phone2', 'document_type', 'document',
+                  'attending', 'discount', 'initial_charge', 'coverage',
+                  'schedule', 'total_year', 'total_paid', 'monthly_payment', 'monthOwed', 'amountOwed']
+
+# serializer para obtener el listado filtrado de estudiantes sin los pagos
+
+
+class UserGradeFilterSerializer(serializers.ModelSerializer):
+    student = StudentGradeFilterSerializer()
+
+    class Meta:
+        model = User
+        fields = ['id', 'first_name', 'last_name', 'email', 'student']
+        extra_kwargs = {
+            'student': {'required': False}
+        }
+################################################################################################################################################################
+
+# serializer para obtener los students individualmente ya que necesitamos el grado como objeto
+# el password no es requerido para la actualizacion
+
+
+class StudentGetSerializer(serializers.ModelSerializer):
+    total_year = serializers.IntegerField(read_only=True)
+    total_paid = serializers.IntegerField(read_only=True)
+    monthly_payment = serializers.IntegerField(read_only=True)
+    monthOwed = serializers.IntegerField(read_only=True)
+    amountOwed = serializers.IntegerField(read_only=True)
+    grade = GradeSerializer()
+    payments = PaymentSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Student
+        fields = ['id', 'user', 'grade', 'code', 'phone1', 'phone2', 'document_type', 'document',
+                  'attending', 'discount', 'initial_charge', 'coverage',
+                  'schedule', 'total_year', 'total_paid', 'monthly_payment', 'monthOwed', 'amountOwed', 'payments']
 
 
 # serializer para CREAR Y ACTUALIZAR los students ya que se necesita solo el id del grado y usuario para relacionarlo
@@ -38,14 +115,17 @@ class StudentSerializer(serializers.ModelSerializer):
     total_year = serializers.IntegerField(read_only=True)
     total_paid = serializers.IntegerField(read_only=True)
     monthly_payment = serializers.IntegerField(read_only=True)
+    monthOwed = serializers.IntegerField(read_only=True)
+    amountOwed = serializers.IntegerField(read_only=True)
+
     class Meta:
         model = Student
-        fields = ['id', 'user', 'grade', 'document_type', 'document', 'code','phone1','phone2',
+        fields = ['id', 'user', 'grade', 'document_type', 'document', 'code', 'phone1', 'phone2',
                   'attending', 'discount', 'initial_charge', 'coverage', 'schedule',
-                  'total_year', 'total_paid', 'monthly_payment']
+                  'total_year', 'total_paid', 'monthly_payment', 'monthOwed', 'amountOwed']
 
 
-# SERIALIZER PARA OBTENER USUARIOS AL INICIAR SECCION Y GENERAR LOS LISTADOS, PARA QUE
+# SERIALIZER PARA OBTENER USUARIOS AL INICIAR SECCION PARA QUE
 # CADA USUARIO TENGA SU PERFIL EN FORMA DE OBJETO
 # tiene relacion con la configuracion que necesita el serializador del token
 class UserSerializer(serializers.ModelSerializer):
@@ -70,7 +150,6 @@ class UserUpdateSerializer(serializers.ModelSerializer):
         model = User
         fields = ['id', 'username', 'email', 'type',
                   'first_name', 'last_name', 'is_active', 'deleted']
-
 
 
 # SERIALIZER PARA EL REGISTRO DE USUARIOS CON CAMPOS ADICIONALES

@@ -4,6 +4,8 @@ from school.models import Grade
 from django.contrib.auth.models import AbstractUser
 from base.utils import get_guid
 import uuid
+from datetime import datetime
+import math
 
 # Create your models here.
 
@@ -101,9 +103,107 @@ class Student(models.Model):
             total_value = total_value + pay.value
         return total_value
     
+    # valor de la mensualidad
     def monthly_payment(self):
         return self.grade.monthly_pay - ((self.grade.monthly_pay * self.discount)/100)
+
+    # cantidad de meses en mora
+    def monthOwed(self):
+        month = datetime.now().month
+        # calculamos los meses pagados
+        month_pay = math.floor(self.total_paid() / self.monthly_payment())
+        # total valor en mora restante
+        total_remaining = self.total_year() - self.total_paid()
+
+        if month == 2 and total_remaining > (self.monthly_payment() * 9):
+            return (self.initial_charge - 9 - month_pay)
+
+        elif month == 3 and total_remaining > (self.monthly_payment() * 8):
+            return (self.initial_charge - 8 - month_pay)
+        
+        elif month == 4 and total_remaining > (self.monthly_payment() * 7):
+            return (self.initial_charge - 7 - month_pay)
+        
+        elif month == 5 and total_remaining > (self.monthly_payment() * 6):
+            return (self.initial_charge - 6 - month_pay)
+        
+        elif month == 6 and total_remaining > (self.monthly_payment() * 5):
+            return (self.initial_charge - 5 - month_pay)
+        
+        elif month == 7 and total_remaining > (self.monthly_payment() * 4):
+            return (self.initial_charge - 4 - month_pay)
+        
+        elif month == 8 and total_remaining > (self.monthly_payment() * 3):
+            return (self.initial_charge - 3 - month_pay)
+        
+        elif month == 9 and total_remaining > (self.monthly_payment() * 2):
+            return (self.initial_charge - 2 - month_pay)
+
+        elif month == 10 and total_remaining > (self.monthly_payment() * 1):
+            return (self.initial_charge - 1 - month_pay)
+        
+        elif month == 11 and total_remaining > (self.monthly_payment() * 0):
+            return (self.initial_charge - month_pay)
+        
+        elif month == 12 and total_remaining > (self.monthly_payment() * 0):
+            return (self.initial_charge - month_pay)
+        else :
+            return 0
     
+    # cantidad de meses en mora
+    def amountOwed(self):
+        month = datetime.now().month
+        # calculamos los meses pagados
+        month_pay = math.floor(self.total_paid() / self.monthly_payment())
+        # total valor en mora restante
+        total_remaining = self.total_year() - self.total_paid()
+
+        if month == 2 and total_remaining > (self.monthly_payment() * 9):
+            meses_mora = self.initial_charge - 9 - month_pay
+            return ((meses_mora * self.monthly_payment())- (self.total_paid() -(month_pay * self.monthly_payment())))
+
+        elif month == 3 and total_remaining > (self.monthly_payment() * 8):
+            meses_mora = self.initial_charge - 8 - month_pay
+            return ((meses_mora * self.monthly_payment())- (self.total_paid() -(month_pay * self.monthly_payment())))
+        
+        elif month == 4 and total_remaining > (self.monthly_payment() * 7):
+            meses_mora = self.initial_charge - 7 - month_pay
+            return ((meses_mora * self.monthly_payment())- (self.total_paid() -(month_pay * self.monthly_payment())))
+        
+        elif month == 5 and total_remaining > (self.monthly_payment() * 6):
+            meses_mora = self.initial_charge - 6 - month_pay
+            return ((meses_mora * self.monthly_payment())- (self.total_paid() -(month_pay * self.monthly_payment())))
+        
+        elif month == 6 and total_remaining > (self.monthly_payment() * 5):
+            meses_mora = self.initial_charge - 5 - month_pay
+            return ((meses_mora * self.monthly_payment())- (self.total_paid() -(month_pay * self.monthly_payment())))
+        
+        elif month == 7 and total_remaining > (self.monthly_payment() * 4):
+            meses_mora = self.initial_charge - 4 - month_pay
+            return ((meses_mora * self.monthly_payment())- (self.total_paid() -(month_pay * self.monthly_payment())))
+        
+        elif month == 8 and total_remaining > (self.monthly_payment() * 3):
+            meses_mora = self.initial_charge - 3 - month_pay
+            return ((meses_mora * self.monthly_payment())- (self.total_paid() -(month_pay * self.monthly_payment())))
+        
+        elif month == 9 and total_remaining > (self.monthly_payment() * 2):
+            meses_mora = self.initial_charge - 2 - month_pay
+            return ((meses_mora * self.monthly_payment())- (self.total_paid() -(month_pay * self.monthly_payment())))
+
+        elif month == 10 and total_remaining > (self.monthly_payment() * 1):
+            meses_mora = self.initial_charge - 1 - month_pay
+            return ((meses_mora * self.monthly_payment())- (self.total_paid() -(month_pay * self.monthly_payment())))
+        
+        elif month == 11 and total_remaining > (self.monthly_payment() * 0):
+            meses_mora = self.initial_charge - month_pay
+            return ((meses_mora * self.monthly_payment())- (self.total_paid() -(month_pay * self.monthly_payment())))
+        
+        elif month == 12 and total_remaining > (self.monthly_payment() * 0):
+            meses_mora = self.initial_charge - month_pay
+            return ((meses_mora * self.monthly_payment())- (self.total_paid() -(month_pay * self.monthly_payment())))
+        else :
+            return 0
+
 
 
     def save(self, force_insert=False, force_update=False, update_fields=None, using=None, request=None):

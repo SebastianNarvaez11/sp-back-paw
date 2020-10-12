@@ -12,7 +12,10 @@ urlpatterns = [
     path('admin/create/', create_users_admin, name='create_user_admin'),
     path('admin/update/<str:pk>/', update_users_admin, name='update_users_admin'),
     # USUARIOS ESTUDIANTES
-    path('student/list/', list_students, name='list_students'),#necesita un listado aparte por los filtros que se deben aplicar
+    path('student/list/debt/', list_students_debt, name='list_students_debt'), #listado de estudiantes por meses en mora
+    path('student/list/<str:grade>/<str:schedule>/', list_students_grades, name='list_students_grades'), #listado de estudiantes filtrado por grado y jornada
+    path('student/get/<str:pk>/', get_student_full, name='get_student_full'),
+    path('student/list/', list_students, name='list_students'),#necesita un listado que se carga al inicio
     path('student/create/', create_students, name='create_students'),
     path('student/update/<str:pk>/', update_students, name='update_students')
 ]

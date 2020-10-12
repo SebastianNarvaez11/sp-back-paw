@@ -1,7 +1,7 @@
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.response import Response
 from rest_framework import status
-from .serializers import AdminSerializer, UserSerializer, UserUpdateSerializer, StudentSerializer
+from .serializers import AdminSerializer, UserSerializer, UserUpdateSerializer, StudentSerializer, UserStudentFilterSerializer, UserGradeFilterSerializer, UserStudentDebtSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 from .models import Admin, User, Student
@@ -85,7 +85,7 @@ def update_users_admin(request, pk):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-# CON ESTA VISTA ESTAMOS LISTANDO LOS USERS ESTUDIANTES
+# CON ESTA VISTA ESTAMOS LISTANDO TODOS LOS USERS ESTUDIANTES AL INICIO PARA TENERLOS LISTOS PARA FILTRAR
 # VISTA PARA HACER ALGUN QUERYSET PERSONALIZADO AL LISTAR SOLO LOS ESTUDIANTES
 @api_view(['GET'])
 @authentication_classes([TokenAuthentication])
@@ -93,7 +93,29 @@ def update_users_admin(request, pk):
 def list_students(request):
     users = User.objects.exclude(deleted=True).exclude(id=request.user.id).exclude(
         type=1).exclude(type=2).exclude(student__grade=None)
-    serializer = UserSerializer(users, many=True)
+    serializer = UserStudentFilterSerializer(users, many=True)
+    return Response(serializer.data)
+
+
+# CON ESTA VISTA ESTAMOS LISTANDO LOS USERS ESTUDIANTES POR GRADO Y JORNADA
+# VISTA PARA HACER ALGUN QUERYSET PERSONALIZADO AL LISTAR SOLO LOS ESTUDIANTES
+@api_view(['GET'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def list_students_grades(request, grade, schedule):
+    users = User.objects.exclude(deleted=True).filter(
+        student__grade__id=grade).filter(student__schedule=schedule)
+    serializer = UserGradeFilterSerializer(users, many=True)
+    return Response(serializer.data)
+
+# CON ESTA VISTA ESTAMOS LISTANDO LOS USERS ESTUDIANTES POR CANTIDAD DE MESES EN MORA
+@api_view(['GET'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def list_students_debt(request):
+    users = User.objects.exclude(deleted=True).exclude(id=request.user.id).exclude(
+        type=1).exclude(type=2).exclude(student__grade=None)
+    serializer = UserStudentDebtSerializer(users, many=True)
     return Response(serializer.data)
 
 
@@ -120,3 +142,14 @@ def update_students(request, pk):
         serializer.save()
         return Response(serializer.data)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+# CON ESTA VISTA ESTAMOS OBTENIENDO EL ESTUDIANTE COMPLETO CON PAGOS COMO OBJETO
+# NO TIENE NADA QUE VER CON EL USUARIO QUE SE DEVUELVE JUNTO AL TOKEN AL INICIAR SECCION
+@api_view(['GET'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def get_student_full(request, pk):
+    user = User.objects.get(id=pk)
+    serializer = UserSerializer(user)
+    return Response(serializer.data, status=status.HTTP_200_OK)

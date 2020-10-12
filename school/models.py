@@ -19,6 +19,12 @@ class Grade(Base):
 
     __deleted = None
 
+    def total_raised(self):
+        total = 0
+        for student in self.students.all():
+            total = total + student.total_paid()
+        return total
+
     def __init__(self, *args, **kwargs):
         super(Grade, self).__init__(*args, **kwargs)
         self.__deleted = self.deleted
@@ -30,6 +36,6 @@ class Grade(Base):
                 student.user.is_active = False
                 student.save()
                 student.user.save()
-        
+
         super(Grade, self).save(force_insert, force_update, *args, **kwargs)
         self.__deleted = self.deleted

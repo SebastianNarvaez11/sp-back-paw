@@ -203,7 +203,7 @@ IMPORT_EXPORT_USE_TRANSACTIONS = True
 # else:
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_HOST_USER = "testing.developer.404@gmail.com"
-EMAIL_HOST_PASSWORD = 'xxjhrprkiiawltht'
+EMAIL_HOST_PASSWORD = '99081916302'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
