@@ -150,7 +150,7 @@ class Student(models.Model):
         else :
             return 0
     
-    # cantidad de meses en mora
+    # valor en mora
     def amountOwed(self):
         month = datetime.now().month
         # calculamos los meses pagados

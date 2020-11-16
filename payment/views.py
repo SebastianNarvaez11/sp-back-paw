@@ -1,7 +1,7 @@
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.response import Response
 from rest_framework import status
-from .serializers import PaymentSerializer
+from .serializers import PaymentSerializer, CompromiseSerializer
 from users.serializers import UserSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
@@ -19,7 +19,7 @@ def list_payments_for_students(request, pk):
     return Response(serializer.data)
 
 
-# CON ESTA VISTA ESTAMOS CREANDO LOS DESDE PAYU
+# CON ESTA VISTA ESTAMOS CREANDO LOS PAGOS DESDE PAYU
 @api_view(['POST'])
 def create_payment(request):
     print(request.data)
@@ -69,3 +69,19 @@ def delete_payment_manual(request, pk):
     user_serializer = UserSerializer(user)
     payment.delete()
     return Response(user_serializer.data, status=status.HTTP_200_OK)
+
+
+############################################################# COMPROMISOS #########################################################
+
+@api_view(['POST'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def create_compromise(request):
+    serializer = CompromiseSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        # se busca al estudiante relacionado
+        user = User.objects.get(student__id=request.data['student'])
+        user_serializer = UserSerializer(user)
+        return Response(user_serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

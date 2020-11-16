@@ -5,7 +5,7 @@ from rest_framework import serializers
 from base.validators import *
 from .models import Admin, User, Student
 from school.serializers import GradeSerializer
-from payment.serializers import PaymentSerializer
+from payment.serializers import PaymentSerializer, CompromiseSerializer
 # serializer para crear y actualizar los admin ya que resiven solo el id y no el objeto completo
 # el password no es requerido para la actualizacion
 
@@ -46,7 +46,8 @@ class StudentDebtSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Student
-        fields = ['id', 'user', 'code', 'grade', 'monthOwed', 'amountOwed']
+        fields = ['id', 'user', 'code', 'grade',
+                  'schedule', 'monthOwed', 'amountOwed']
 
 
 class UserStudentDebtSerializer(serializers.ModelSerializer):
@@ -61,6 +62,8 @@ class UserStudentDebtSerializer(serializers.ModelSerializer):
 
 ################################################################################################################################################################
 # serializer para obtener el listado filtrado por grados de estudiantes sin  los pagos
+
+
 class StudentGradeFilterSerializer(serializers.ModelSerializer):
     total_year = serializers.IntegerField(read_only=True)
     total_paid = serializers.IntegerField(read_only=True)
@@ -68,12 +71,13 @@ class StudentGradeFilterSerializer(serializers.ModelSerializer):
     monthOwed = serializers.IntegerField(read_only=True)
     amountOwed = serializers.IntegerField(read_only=True)
     grade = GradeSerializer()
+    compromises = CompromiseSerializer(many=True, read_only=True)
 
     class Meta:
         model = Student
         fields = ['id', 'user', 'code', 'grade', 'phone1', 'phone2', 'document_type', 'document',
                   'attending', 'discount', 'initial_charge', 'coverage',
-                  'schedule', 'total_year', 'total_paid', 'monthly_payment', 'monthOwed', 'amountOwed']
+                  'schedule', 'total_year', 'total_paid', 'monthly_payment', 'monthOwed', 'amountOwed', 'compromises']
 
 # serializer para obtener el listado filtrado de estudiantes sin los pagos
 
@@ -101,12 +105,13 @@ class StudentGetSerializer(serializers.ModelSerializer):
     amountOwed = serializers.IntegerField(read_only=True)
     grade = GradeSerializer()
     payments = PaymentSerializer(many=True, read_only=True)
+    compromises = CompromiseSerializer(many=True, read_only=True)
 
     class Meta:
         model = Student
         fields = ['id', 'user', 'grade', 'code', 'phone1', 'phone2', 'document_type', 'document',
                   'attending', 'discount', 'initial_charge', 'coverage',
-                  'schedule', 'total_year', 'total_paid', 'monthly_payment', 'monthOwed', 'amountOwed', 'payments']
+                  'schedule', 'total_year', 'total_paid', 'monthly_payment', 'monthOwed', 'amountOwed', 'payments', 'compromises']
 
 
 # serializer para CREAR Y ACTUALIZAR los students ya que se necesita solo el id del grado y usuario para relacionarlo
