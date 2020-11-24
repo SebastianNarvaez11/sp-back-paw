@@ -89,7 +89,7 @@ def update_users_admin(request, pk):
 # VISTA PARA HACER ALGUN QUERYSET PERSONALIZADO AL LISTAR SOLO LOS ESTUDIANTES
 @api_view(['GET'])
 @authentication_classes([TokenAuthentication])
-@permission_classes([IsAuthenticated])
+# @permission_classes([IsAuthenticated])
 def list_students(request):
     users = User.objects.exclude(deleted=True).exclude(id=request.user.id).exclude(
         type=1).exclude(type=2).exclude(student__grade=None)
