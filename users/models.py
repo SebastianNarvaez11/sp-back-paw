@@ -73,7 +73,7 @@ class Student(models.Model):
         (2, 'Oct.Nov'),)
 
     id = models.CharField(primary_key=True, blank=True, max_length=40, verbose_name="ID")
-    code = models.CharField('Codigo',max_length=10, unique=True, blank=True, null=True)
+    code = models.CharField('Codigo',max_length=10, unique=True)
     user = models.OneToOneField(User, verbose_name='Usuario', related_name='student', on_delete=models.CASCADE)
     grade = models.ForeignKey(Grade, verbose_name='Grado', on_delete=models.CASCADE,related_name='students', blank=True, null=True)
     phone1 = models.CharField('Telefono 1', max_length=11, null=True, blank=True)
@@ -211,7 +211,7 @@ class Student(models.Model):
         if not self.id:
             is_new = True
             self.id = get_guid()
-            self.code = str(Student.objects.count() + 1).zfill(4)
+            # self.code = str(Student.objects.count() + 1).zfill(4)
 
         super(Student, self).save(force_insert,
                                   force_update, using, update_fields)
