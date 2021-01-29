@@ -109,7 +109,7 @@ class Student(models.Model):
 
     # cantidad de meses en mora
     def monthOwed(self):
-        month = datetime.now().month
+        month = 8
         # calculamos los meses pagados
         month_pay = math.floor(self.total_paid() / self.monthly_payment())
         # total valor en mora restante
@@ -152,7 +152,7 @@ class Student(models.Model):
     
     # valor en mora
     def amountOwed(self):
-        month = datetime.now().month
+        month = 8
         # calculamos los meses pagados
         month_pay = math.floor(self.total_paid() / self.monthly_payment())
         # total valor en mora restante
