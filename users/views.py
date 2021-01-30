@@ -114,7 +114,7 @@ def list_students_grades(request, grade, schedule):
 @permission_classes([IsAuthenticated])
 def list_students_debt(request):
     users = User.objects.exclude(deleted=True).exclude(id=request.user.id).exclude(
-        type=1).exclude(type=2).exclude(student__grade=None).exclude(coverage=True)
+        type=1).exclude(type=2).exclude(student__grade=None).exclude(student__coverage=True)
     serializer = UserStudentDebtSerializer(users, many=True)
     return Response(serializer.data)
 
