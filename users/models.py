@@ -115,7 +115,10 @@ class Student(models.Model):
         # total valor en mora restante
         total_remaining = self.total_year() - self.total_paid()
 
-        if month == 2 and total_remaining > (self.monthly_payment() * 9):
+        if self.coverage:
+            return 0
+
+        elif month == 2 and total_remaining > (self.monthly_payment() * 9):
             return (self.initial_charge - 9 - month_pay)
 
         elif month == 3 and total_remaining > (self.monthly_payment() * 8):
@@ -158,7 +161,10 @@ class Student(models.Model):
         # total valor en mora restante
         total_remaining = self.total_year() - self.total_paid()
 
-        if month == 2 and total_remaining > (self.monthly_payment() * 9):
+        if self.coverage:
+            return 0
+
+        elif month == 2 and total_remaining > (self.monthly_payment() * 9):
             meses_mora = self.initial_charge - 9 - month_pay
             return ((meses_mora * self.monthly_payment())- (self.total_paid() -(month_pay * self.monthly_payment())))
 
