@@ -19,10 +19,18 @@ class Grade(Base):
 
     __deleted = None
 
+    # total recaudado
     def total_raised(self):
         total = 0
         for student in self.students.all():
             total = total + student.total_paid()
+        return total
+    
+    #total adeudado
+    def total_owed(self):
+        total = 0
+        for student in self.students.all():
+            total = total + student.amountOwed()
         return total
 
     def __init__(self, *args, **kwargs):

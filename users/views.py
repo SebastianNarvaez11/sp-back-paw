@@ -113,14 +113,8 @@ def list_students_grades(request, grade, schedule):
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def list_students_debt(request):
-    users_all = User.objects.exclude(deleted=True).exclude(id=request.user.id).exclude(
+    users = User.objects.exclude(deleted=True).exclude(id=request.user.id).exclude(
         type=1).exclude(type=2).exclude(student__grade=None).exclude(student__coverage=True)
-
-    users=[]
-    for user in users_all:
-        if(user.student.monthOwed() != 0):
-            users.append(user)
-
     serializer = UserStudentDebtSerializer(users, many=True)
     return Response(serializer.data)
 

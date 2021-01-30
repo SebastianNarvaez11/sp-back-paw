@@ -12,4 +12,4 @@ class GradeSerializer(serializers.ModelSerializer):
 class GradeAlterSerializer(serializers.ModelSerializer):
     class Meta:
         model = Grade
-        fields = ['id', 'name', 'enrollment', 'monthly_pay', 'deleted', 'total_raised']
+        fields = ['id', 'name', 'enrollment', 'monthly_pay', 'deleted', 'total_raised', 'total_owed']
