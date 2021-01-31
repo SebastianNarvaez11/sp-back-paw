@@ -1,12 +1,22 @@
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.response import Response
 from rest_framework import status
-from .serializers import PaymentSerializer, CompromiseSerializer
+from .serializers import PaymentSerializer, CompromiseSerializer, PaymentWhiteStudentSerializer
 from users.serializers import UserSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 from .models import Payment
 from users.models import User
+
+
+# CON ESTA VISTA ESTAMOS OBTENIENDO TODOS LOS PAGOS 
+@api_view(['GET'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def list_payments(request):
+    pays = Payment.objects.all()
+    serializer = PaymentSerializer(pays, many=True)
+    return Response(serializer.data)
 
 # CON ESTA VISTA ESTAMOS OBTENIENDO LOS PAGOS POR ESTUDIANTE
 @api_view(['GET'])
@@ -14,8 +24,7 @@ from users.models import User
 @permission_classes([IsAuthenticated])
 def list_payments_for_students(request, pk):
     pays = Payment.objects.filter(student__id=pk)
-    print(pays)
-    serializer = PaymentSerializer(pays, many=True)
+    serializer = PaymentWhiteStudentSerializer(pays, many=True)
     return Response(serializer.data)
 
 
