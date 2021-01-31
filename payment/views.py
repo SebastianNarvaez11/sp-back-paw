@@ -15,7 +15,7 @@ from users.models import User
 @permission_classes([IsAuthenticated])
 def list_payments(request):
     pays = Payment.objects.all()
-    serializer = PaymentSerializer(pays, many=True)
+    serializer = PaymentWhiteStudentSerializer(pays, many=True)
     return Response(serializer.data)
 
 # CON ESTA VISTA ESTAMOS OBTENIENDO LOS PAGOS POR ESTUDIANTE
@@ -24,7 +24,7 @@ def list_payments(request):
 @permission_classes([IsAuthenticated])
 def list_payments_for_students(request, pk):
     pays = Payment.objects.filter(student__id=pk)
-    serializer = PaymentWhiteStudentSerializer(pays, many=True)
+    serializer = PaymentSerializer(pays, many=True)
     return Response(serializer.data)
 
 
