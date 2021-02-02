@@ -1,11 +1,11 @@
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.response import Response
 from rest_framework import status
-from .serializers import PaymentSerializer, CompromiseSerializer, PaymentWhiteStudentSerializer
+from .serializers import PaymentSerializer, CompromiseSerializer, PaymentWhiteStudentSerializer, CompromiseWithStudentSerializer
 from users.serializers import UserSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
-from .models import Payment
+from .models import Payment, CompromisePay
 from users.models import User
 
 
@@ -81,6 +81,15 @@ def delete_payment_manual(request, pk):
 
 
 ############################################################# COMPROMISOS #########################################################
+
+# CON ESTA VISTA ESTAMOS OBTENIENDO TODOS LOS compromisos 
+@api_view(['GET'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def list_compromises(request):
+    compromises = CompromisePay.objects.all()
+    serializer = CompromiseWithStudentSerializer(compromises, many=True)
+    return Response(serializer.data)
 
 @api_view(['POST'])
 @authentication_classes([TokenAuthentication])
