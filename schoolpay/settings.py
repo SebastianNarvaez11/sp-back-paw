@@ -185,10 +185,10 @@ ACCOUNT_USER_MODEL_USERNAME_FIELD = 'username'
 
 REST_SESSION_LOGIN = False
 
-AUTHENTICATION_BACKENDS = (
-    "django.contrib.auth.backends.ModelBackend",
-    "allauth.account.auth_backends.AuthenticationBackend"
-)
+# AUTHENTICATION_BACKENDS = (
+#     "django.contrib.auth.backends.ModelBackend",
+#     "allauth.account.auth_backends.AuthenticationBackend"
+# )
 
 REST_AUTH_SERIALIZERS = {
     'TOKEN_SERIALIZER': 'authentication.serializers.TokenSerializer',
