@@ -27,8 +27,7 @@ def get_current_user(request):
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def list_users(request):
-    users = User.objects.exclude(deleted=True).exclude(
-        id=request.user.id).exclude(admin=None).exclude(type=3)
+    users = User.objects.exclude(deleted=True).exclude(id=request.user.id).exclude(admin=None).exclude(type=3).exclude(request.user.is_superuser==True)
     serializer = UserSerializer(users, many=True)
     return Response(serializer.data)
 
