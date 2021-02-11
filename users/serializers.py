@@ -71,13 +71,14 @@ class StudentGradeFilterSerializer(serializers.ModelSerializer):
     monthOwed = serializers.IntegerField(read_only=True)
     amountOwed = serializers.IntegerField(read_only=True)
     grade = GradeSerializer()
+    payments = PaymentSerializer(many=True, read_only=True)
     compromises = CompromiseSerializer(many=True, read_only=True)
 
     class Meta:
         model = Student
         fields = ['id', 'user', 'code', 'grade', 'phone1', 'phone2', 'document_type', 'document',
                   'attending', 'discount', 'initial_charge', 'coverage',
-                  'schedule', 'total_year', 'total_paid', 'monthly_payment', 'monthOwed', 'amountOwed', 'compromises']
+                  'schedule', 'total_year', 'total_paid', 'monthly_payment', 'monthOwed', 'amountOwed', 'payments', 'compromises']
 
 # serializer para obtener el listado filtrado de estudiantes sin los pagos
 
