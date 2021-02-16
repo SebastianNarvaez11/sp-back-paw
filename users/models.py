@@ -217,7 +217,7 @@ class Student(models.Model):
         if not self.id:
             is_new = True
             self.id = get_guid()
-            # self.code = str(Student.objects.count() + 1).zfill(4)
+            self.code = self.code.zfill(4)
 
         super(Student, self).save(force_insert,
                                   force_update, using, update_fields)
