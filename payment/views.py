@@ -104,3 +104,17 @@ def create_compromise(request):
         user_serializer = UserSerializer(user)
         return Response(user_serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+@api_view(['DELETE'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def delete_compromises(request, pk):
+    try:
+        compromise = CompromisePay.objects.get(pk=pk)
+    except CompromisePay.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    compromise.delete()
+    return Response(status=status.HTTP_200_OK)

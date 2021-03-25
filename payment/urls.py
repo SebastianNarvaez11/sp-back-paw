@@ -13,5 +13,6 @@ urlpatterns = [
          delete_payment_manual, name='delete_payment_manual'),
     # COMPROMISOS DE PAGO
     path('compromise/create/', create_compromise, name='create_compromise'),
-    path('compromise/list/', list_compromises, name='list_compromises')
+    path('compromise/list/', list_compromises, name='list_compromises'),
+    path('compromises/delete/<str:pk>/', delete_compromises, name ='delete_compromises')
 ]
