@@ -9,7 +9,7 @@ from .models import Payment, CompromisePay
 from users.models import User
 
 
-# CON ESTA VISTA ESTAMOS OBTENIENDO TODOS LOS PAGOS 
+# CON ESTA VISTA ESTAMOS OBTENIENDO TODOS LOS PAGOS
 @api_view(['GET'])
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
@@ -83,7 +83,7 @@ def delete_payment_manual(request, pk):
 
 ############################################################# COMPROMISOS #########################################################
 
-# CON ESTA VISTA ESTAMOS OBTENIENDO TODOS LOS compromisos 
+# CON ESTA VISTA ESTAMOS OBTENIENDO TODOS LOS compromisos
 @api_view(['GET'])
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
@@ -91,6 +91,7 @@ def list_compromises(request):
     compromises = CompromisePay.objects.all()
     serializer = CompromiseWithStudentSerializer(compromises, many=True)
     return Response(serializer.data)
+
 
 @api_view(['POST'])
 @authentication_classes([TokenAuthentication])
@@ -106,7 +107,6 @@ def create_compromise(request):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-
 @api_view(['DELETE'])
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
@@ -116,5 +116,19 @@ def delete_compromises(request, pk):
     except CompromisePay.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
+    user = User.objects.get(student__id=compromise.student.id)
+    user_serializer = UserSerializer(user)
     compromise.delete()
-    return Response(status=status.HTTP_200_OK)
+    return Response(user_serializer.data, status=status.HTTP_200_OK)
+
+
+@api_view(['PUT'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def update_compromises(request, pk):
+    compromise = CompromisePay.objects.get(pk=pk)
+    serializer = CompromiseSerializer(compromise, data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
