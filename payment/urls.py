@@ -13,7 +13,8 @@ urlpatterns = [
          delete_payment_manual, name='delete_payment_manual'),
     # COMPROMISOS DE PAGO
     path('compromise/create/', create_compromise, name='create_compromise'),
-    path('compromise/update/<str:pk>/', update_compromises, name='update_compromises'),
+    path('compromise/update/<str:pk>/', update_compromises, name='update_compromises'),#para los compromisos desde la lista
+    path('compromise/update2/<str:pk>/', update_compromises_detail, name='update_compromises_detail'),#para los compromisos desde eldetalle e estudiante
     path('compromise/list/', list_compromises, name='list_compromises'),
     path('compromises/delete/<str:pk>/', delete_compromises, name ='delete_compromises')
 ]

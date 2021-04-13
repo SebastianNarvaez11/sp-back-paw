@@ -133,3 +133,17 @@ def update_compromises(request, pk):
         compromise_serializer = CompromiseWithStudentSerializer(compromise)
         return Response(compromise_serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['PUT'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def update_compromises_detail(request, pk):
+    compromise = CompromisePay.objects.get(pk=pk)
+    serializer = CompromiseSerializer(compromise, data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        user = User.objects.get(student__id=request.data['student'])
+        user_serializer = UserSerializer(user)
+        return Response(user_serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
