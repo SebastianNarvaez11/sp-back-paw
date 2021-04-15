@@ -13,10 +13,13 @@ class PaymentSerializer(serializers.ModelSerializer):
         fields = ['id', 'value', 'description',
                   'student', 'reference', 'method', 'create']
 ############################################################################
+
+
 class GradeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Grade
         fields = ['name']
+
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -27,9 +30,15 @@ class UserSerializer(serializers.ModelSerializer):
 class StudentSerializer(serializers.ModelSerializer):
     user = UserSerializer()
     grade = GradeSerializer()
+
+    @staticmethod
+    def setup_eager_loading(queryset):
+        queryset = queryset.select_related('user', 'grade')
+        return queryset
+
     class Meta:
         model = Student
-        fields = ['id' , 'user', 'grade']
+        fields = ['id', 'user', 'grade']
 
 
 class PaymentWhiteStudentSerializer(serializers.ModelSerializer):
