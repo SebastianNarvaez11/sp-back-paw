@@ -18,7 +18,6 @@ def list_payments(request):
     serializer = PaymentWhiteStudentSerializer(pays, many=True)
     return Response(serializer.data)
 
-
 # CON ESTA VISTA ESTAMOS OBTENIENDO LOS PAGOS POR ESTUDIANTE
 @api_view(['GET'])
 @authentication_classes([TokenAuthentication])
