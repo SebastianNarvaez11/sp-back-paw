@@ -34,6 +34,7 @@ class StudentSerializer(serializers.ModelSerializer):
 
 class PaymentWhiteStudentSerializer(serializers.ModelSerializer):
     student = StudentSerializer()
+    
     create = serializers.DateTimeField(
         format="%Y-%m-%d %H:%M:%S", required=False, read_only=True)
 
