@@ -14,7 +14,7 @@ from users.models import User
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def list_payments(request):
-    pays = Payment.objects.all()
+    pays = Payment.objects.select_related().all()
     serializer = PaymentWhiteStudentSerializer(pays, many=True)
     return Response(serializer.data)
 
@@ -88,7 +88,7 @@ def delete_payment_manual(request, pk):
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def list_compromises(request):
-    compromises = CompromisePay.objects.all()
+    compromises = CompromisePay.objects.select_related().all()
     serializer = CompromiseWithStudentSerializer(compromises, many=True)
     return Response(serializer.data)
 
