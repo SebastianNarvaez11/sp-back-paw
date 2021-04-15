@@ -39,7 +39,7 @@ class PaymentWhiteStudentSerializer(serializers.ModelSerializer):
 
     @staticmethod
     def setup_eager_loading(queryset):
-        queryset = queryset.prefetch_related('student')
+        queryset = queryset.select_related('student')
         return queryset
 
     class Meta:
