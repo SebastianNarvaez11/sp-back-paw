@@ -41,15 +41,30 @@ class StudentSerializer(serializers.ModelSerializer):
         fields = ['id', 'user', 'grade']
 
 
-class PaymentWhiteStudentSerializer(serializers.ModelSerializer):
-    student = StudentSerializer()
+class EagerLoadingMixin:
+    @classmethod
+    def setup_eager_loading(cls, queryset):
+        """
+        This function allow dynamic addition of the related objects to
+        the provided query.
+        @parameter param1: queryset
+        """
+
+        if hasattr(cls, "select_related_fields"):
+            queryset = queryset.select_related(*cls.select_related_fields)
+        if hasattr(cls, "prefetch_related_fields"):
+            queryset = queryset.prefetch_related(*cls.prefetch_related_fields)
+        return queryset
+
+
+class PaymentWhiteStudentSerializer(serializers.ModelSerializer, EagerLoadingMixin):
+    student = StudentSerializer(many=False)
+    select_related_fields = ('student',)
+    prefetch_related_fields = ()
+
     create = serializers.DateTimeField(
         format="%Y-%m-%d %H:%M:%S", required=False, read_only=True)
 
-    @staticmethod
-    def setup_eager_loading(queryset):
-        queryset = queryset.select_related('student')
-        return queryset
 
     class Meta:
         model = Payment
