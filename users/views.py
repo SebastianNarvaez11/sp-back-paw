@@ -90,8 +90,7 @@ def update_users_admin(request, pk):
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def list_students(request):
-    users = User.objects.exclude(deleted=True).exclude(id=request.user.id).exclude(
-        type=1).exclude(type=2).exclude(student__grade=None)
+    users = User.objects.select_related().exclude(deleted=True).exclude(type=1).exclude(type=2).exclude(student__grade=None)
     serializer = UserStudentFilterSerializer(users, many=True)
     return Response(serializer.data)
 
