@@ -1,7 +1,7 @@
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.response import Response
 from rest_framework import status
-from .serializers import AdminSerializer, UserSerializer, UserUpdateSerializer, StudentSerializer, UserStudentFilterSerializer, UserGradeFilterSerializer, UserStudentDebtSerializer
+from .serializers import AdminSerializer, UserSerializer, UserUpdateSerializer, StudentSerializer, UserStudentFilterSerializer, UserGradeFilterSerializer, UserStudentDebtSerializer, UserStudentDebtAppSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 from .models import Admin, User, Student
@@ -105,8 +105,8 @@ def list_students_grades(request, grade, schedule):
         student__grade__id=grade).filter(student__schedule=schedule)
     serializer = UserGradeFilterSerializer(users, many=True)
     return Response(serializer.data)
-
-# CON ESTA VISTA ESTAMOS LISTANDO LOS USERS ESTUDIANTES POR CANTIDAD DE MESES EN MORA
+#####################################################################################################################################################################
+# CON ESTA VISTA ESTAMOS LISTANDO LOS USERS ESTUDIANTES POR CANTIDAD DE MESES EN MORA PARA ESTADISTICAS
 @api_view(['GET'])
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
@@ -115,6 +115,17 @@ def list_students_debt(request):
     serializer = UserStudentDebtSerializer(users, many=True)
     return Response(serializer.data)
 
+
+# CON ESTA VISTA ESTAMOS LISTANDO LOS USERS ESTUDIANTES POR CANTIDAD DE MESES EN MORA PARA ESTADISTICAS DE LA APP
+@api_view(['GET'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def list_students_debt_app(request):
+    users = User.objects.select_related().exclude(deleted=True).exclude(type=1).exclude(type=2).exclude(student__grade=None).exclude(student__coverage=True)
+    serializer = UserStudentDebtAppSerializer(users, many=True)
+    return Response(serializer.data)
+
+#####################################################################################################################################################################
 
 # CON ESTA VISTA ESTAMOS CREANDO LOS ESTUDIANTES
 @api_view(['POST'])

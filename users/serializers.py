@@ -39,6 +39,7 @@ class UserStudentFilterSerializer(serializers.ModelSerializer):
 
 
 ################################################################################################################################################################
+#ESTADISTICAS
 # serializer para obtener los todos estudiantes para el envio masivo de emails y sms, filtrados solo por el numero de meses en mora
 
 class StudentDebtSerializer(serializers.ModelSerializer):
@@ -56,6 +57,27 @@ class UserStudentDebtSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'first_name', 'last_name', 'email', 'student']
+        extra_kwargs = {
+            'student': {'required': False}
+        }
+
+###### APP
+
+class StudentDebtAppSerializer(serializers.ModelSerializer):
+    grade = GradeSerializer()
+
+    class Meta:
+        model = Student
+        fields = ['id', 'grade',
+                  'schedule', 'monthOwed', 'amountOwed']
+
+
+class UserStudentDebtAppSerializer(serializers.ModelSerializer):
+    student = StudentDebtAppSerializer()
+
+    class Meta:
+        model = User
+        fields = ['id', 'student']
         extra_kwargs = {
             'student': {'required': False}
         }
