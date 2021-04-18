@@ -64,12 +64,10 @@ class UserStudentDebtSerializer(serializers.ModelSerializer):
 ###### APP
 
 class StudentDebtAppSerializer(serializers.ModelSerializer):
-    grade = GradeSerializer()
 
     class Meta:
         model = Student
-        fields = ['id', 'grade',
-                  'schedule', 'monthOwed', 'amountOwed']
+        fields = ['id', 'schedule', 'monthOwed', 'amountOwed']
 
 
 class UserStudentDebtAppSerializer(serializers.ModelSerializer):
