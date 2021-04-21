@@ -47,7 +47,7 @@ class StudentDebtSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Student
-        fields = ['id', 'user', 'code', 'grade',
+        fields = ['id', 'code', 'grade',
                   'schedule', 'monthOwed', 'amountOwed']
 
 
@@ -56,7 +56,7 @@ class UserStudentDebtSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['id', 'first_name', 'last_name', 'email', 'student']
+        fields = ['id', 'student']
         extra_kwargs = {
             'student': {'required': False}
         }
