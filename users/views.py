@@ -110,7 +110,7 @@ def list_students_grades(request, grade, schedule):
 @api_view(['GET'])
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
-    def list_students_debt(request):
+def list_students_debt(request):
     users = User.objects.select_related().exclude(deleted=True).exclude(type=1).exclude(type=2).exclude(student__grade=None).exclude(student__coverage=True)
     serializer = UserStudentDebtSerializer(users, many=True)
     return Response(serializer.data)
