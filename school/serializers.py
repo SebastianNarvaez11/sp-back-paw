@@ -6,10 +6,14 @@ from .models import Grade
 class GradeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Grade
-        fields = ['id', 'name', 'enrollment', 'monthly_pay', 'deleted']
+        fields = ['id', 'name', 'abbreviation',
+                  'enrollment', 'monthly_pay', 'deleted']
 
 # serializador que pasa el valor total que an pagado
+
+
 class GradeAlterSerializer(serializers.ModelSerializer):
     class Meta:
         model = Grade
-        fields = ['id', 'name', 'enrollment', 'monthly_pay', 'deleted', 'total_raised']
+        fields = ['id', 'name', 'abbreviation', 'enrollment',
+                  'monthly_pay', 'deleted', 'total_raised']

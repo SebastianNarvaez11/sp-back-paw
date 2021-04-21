@@ -6,6 +6,7 @@ from base.models import Base
 
 class Grade(Base):
     name = models.CharField('Nombre', max_length=15)
+    abbreviation = models.CharField('Abreviacion', default='00')
     monthly_pay = models.IntegerField('Mensualidad')
     enrollment = models.IntegerField('Matricula')
 
