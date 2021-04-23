@@ -39,7 +39,7 @@ class UserStudentFilterSerializer(serializers.ModelSerializer):
 
 
 ################################################################################################################################################################
-#ESTADISTICAS
+# ESTADISTICAS
 # serializer para obtener los todos estudiantes para el envio masivo de emails y sms, filtrados solo por el numero de meses en mora
 
 class StudentDebtSerializer(serializers.ModelSerializer):
@@ -61,7 +61,8 @@ class UserStudentDebtSerializer(serializers.ModelSerializer):
             'student': {'required': False}
         }
 
-###### APP
+# APP
+
 
 class StudentDebtAppSerializer(serializers.ModelSerializer):
 
@@ -90,13 +91,13 @@ class StudentGradeFilterSerializer(serializers.ModelSerializer):
     monthly_payment = serializers.IntegerField(read_only=True)
     monthOwed = serializers.IntegerField(read_only=True)
     amountOwed = serializers.IntegerField(read_only=True)
-    # grade = GradeSerializer()
+    grade = GradeSerializer()
     # payments = PaymentSerializer(many=True, read_only=True)
     # compromises = CompromiseSerializer(many=True, read_only=True)
 
     class Meta:
         model = Student
-        fields = ['id', 'user', 'code', 'phone1', 'phone2', 'document_type', 'document',
+        fields = ['id', 'user', 'code', 'grade', 'phone1', 'phone2', 'document_type', 'document',
                   'attending', 'discount', 'initial_charge', 'coverage',
                   'schedule', 'total_year', 'total_paid', 'monthly_payment', 'monthOwed', 'amountOwed', 'note']
 
@@ -143,7 +144,6 @@ class StudentSerializer(serializers.ModelSerializer):
     monthly_payment = serializers.IntegerField(read_only=True)
     monthOwed = serializers.IntegerField(read_only=True)
     amountOwed = serializers.IntegerField(read_only=True)
-    
 
     class Meta:
         model = Student
