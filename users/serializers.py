@@ -98,7 +98,7 @@ class StudentGradeFilterSerializer(serializers.ModelSerializer):
         model = Student
         fields = ['id', 'user', 'code', 'grade', 'phone1', 'phone2', 'document_type', 'document',
                   'attending', 'discount', 'initial_charge', 'coverage',
-                  'schedule', 'total_year', 'total_paid', 'monthly_payment', 'monthOwed', 'amountOwed', 'payments', 'compromises']
+                  'schedule', 'total_year', 'total_paid', 'monthly_payment', 'monthOwed', 'amountOwed', 'payments', 'compromises', 'note']
 
 # serializer para obtener el listado filtrado de estudiantes sin los pagos
 
@@ -132,7 +132,7 @@ class StudentGetSerializer(serializers.ModelSerializer):
         model = Student
         fields = ['id', 'user', 'grade', 'code', 'phone1', 'phone2', 'document_type', 'document',
                   'attending', 'discount', 'initial_charge', 'coverage',
-                  'schedule', 'total_year', 'total_paid', 'monthly_payment', 'monthOwed', 'amountOwed', 'payments', 'compromises']
+                  'schedule', 'total_year', 'total_paid', 'monthly_payment', 'monthOwed', 'amountOwed', 'payments', 'compromises', 'note']
 
 
 # serializer para CREAR Y ACTUALIZAR los students ya que se necesita solo el id del grado y usuario para relacionarlo

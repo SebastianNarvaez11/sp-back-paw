@@ -86,6 +86,7 @@ class Student(models.Model):
     coverage = models.BooleanField('Cobertura', default=False)
     schedule = models.PositiveSmallIntegerField(
         'Jornada', choices=SCHEDULE_TYPE_CHOICES, default=1)
+    note = models.CharField('Nota', default='', max_length=200)
 
     class Meta:
         verbose_name = 'Estudiante'
