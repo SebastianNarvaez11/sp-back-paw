@@ -148,7 +148,7 @@ class StudentSerializer(serializers.ModelSerializer):
         model = Student
         fields = ['id', 'user', 'grade', 'document_type', 'document', 'code', 'phone1', 'phone2',
                   'attending', 'discount', 'initial_charge', 'coverage', 'schedule',
-                  'total_year', 'total_paid', 'monthly_payment', 'monthOwed', 'amountOwed']
+                  'total_year', 'total_paid', 'monthly_payment', 'monthOwed', 'amountOwed', 'note']
 
 
 # SERIALIZER PARA OBTENER USUARIOS AL INICIAR SECCION PARA QUE
