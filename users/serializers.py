@@ -143,6 +143,7 @@ class StudentSerializer(serializers.ModelSerializer):
     monthly_payment = serializers.IntegerField(read_only=True)
     monthOwed = serializers.IntegerField(read_only=True)
     amountOwed = serializers.IntegerField(read_only=True)
+    
 
     class Meta:
         model = Student
