@@ -29,7 +29,7 @@ class StudentSerializer(serializers.ModelSerializer):
     grade = GradeSerializer()
     class Meta:
         model = Student
-        fields = ['id' , 'user', 'grade']
+        fields = ['id' , 'user', 'grade', 'phone1', 'phone2']
 
 
 class PaymentWhiteStudentSerializer(serializers.ModelSerializer):
