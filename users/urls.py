@@ -14,6 +14,7 @@ urlpatterns = [
     # USUARIOS ESTUDIANTES
     path('student/list/debt/', list_students_debt, name='list_students_debt'), #listado de estudiantes por meses en mora - estadisticas
     path('student/list/debt/app/', list_students_debt_app, name='list_students_debt_app'), #listado de estudiantes por meses en mora - APP estadisticas
+    path('student/list/report/', list_students_report, name='list_students_report'), #listado de estudiantes por meses en mora - APP estadisticas
     path('student/list/<str:grade>/<str:schedule>/', list_students_grades, name='list_students_grades'), #listado de estudiantes filtrado por grado y jornada
     path('student/get/<str:pk>/', get_student_full, name='get_student_full'),
     path('student/list/', list_students, name='list_students'),#necesita un listado que se carga al inicio

@@ -4,7 +4,7 @@ from allauth.account.utils import setup_user_email
 from rest_framework import serializers
 from base.validators import *
 from .models import Admin, User, Student
-from school.serializers import GradeSerializer
+from school.serializers import GradeSerializer, GradeReportSerializer
 from payment.serializers import PaymentSerializer, CompromiseSerializer
 # serializer para crear y actualizar los admin ya que resiven solo el id y no el objeto completo
 # el password no es requerido para la actualizacion
@@ -77,6 +77,26 @@ class UserStudentDebtAppSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'student']
+        extra_kwargs = {
+            'student': {'required': False}
+        }
+
+
+################ reportes
+class StudentReportSerializer(serializers.ModelSerializer):
+    grade = GradeReportSerializer()
+
+    class Meta:
+        model = Student
+        fields = ['code', 'grade',
+                  'schedule', 'monthOwed', 'amountOwed']
+
+class UserStudentReportSerializer(serializers.ModelSerializer):
+    student = StudentReportSerializer()
+
+    class Meta:
+        model = User
+        fields = ['last_name', 'first_name' 'student']
         extra_kwargs = {
             'student': {'required': False}
         }

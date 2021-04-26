@@ -17,3 +17,9 @@ class GradeAlterSerializer(serializers.ModelSerializer):
         model = Grade
         fields = ['id', 'name', 'abbreviation', 'enrollment',
                   'monthly_pay', 'deleted', 'total_raised']
+
+# serializer para los reportes, solo con el nombre
+class GradeReportSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Grade
+        fields = ['name']
