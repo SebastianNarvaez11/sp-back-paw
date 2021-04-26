@@ -127,6 +127,7 @@ def list_students_debt_app(request):
 
 
 # CON ESTA VISTA ESTAMOS LISTANDO LOS USERS ESTUDIANTES POR CANTIDAD DE MESES PARA LOS REPORTES
+@api_view(['GET'])
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def list_students_report(request):
