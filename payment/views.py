@@ -7,14 +7,15 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 from .models import Payment, CompromisePay
 from users.models import User
+import datetime
 
 
-# CON ESTA VISTA ESTAMOS OBTENIENDO TODOS LOS PAGOS
+# CON ESTA VISTA ESTAMOS OBTENIENDO TODOS LOS PAGOS filtrados por el mes actual
 @api_view(['GET'])
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def list_payments(request):
-    pays = Payment.objects.select_related().all()[:100]
+    pays = Payment.objects.select_related().filter(create__month = datetime.datetime.today().month)
     serializer = PaymentWhiteStudentSerializer(pays, many=True)
     return Response(serializer.data)
 
