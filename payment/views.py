@@ -80,6 +80,16 @@ def delete_payment_manual(request, pk):
     payment.delete()
     return Response(user_serializer.data, status=status.HTTP_200_OK)
 
+# estamos optiendo los pagos por periodo
+@api_view(['GET'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def payment_filter_period(request, period):
+    pays = Payment.objects.select_related().filter(create__date = period)
+    print(pays)
+    serializer = PaymentWhiteStudentSerializer(pays, many=True)
+    return Response(serializer.data)
+
 
 ############################################################# COMPROMISOS #########################################################
 
