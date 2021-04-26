@@ -85,7 +85,7 @@ def delete_payment_manual(request, pk):
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def payment_filter_period(request, period):
-    pays = Payment.objects.select_related().filter(create__date = period)
+    pays = Payment.objects.select_related().filter(create__month = period)
     print(pays)
     serializer = PaymentWhiteStudentSerializer(pays, many=True)
     return Response(serializer.data)
