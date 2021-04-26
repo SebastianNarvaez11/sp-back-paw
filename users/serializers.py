@@ -82,14 +82,15 @@ class UserStudentDebtAppSerializer(serializers.ModelSerializer):
         }
 
 
-################ reportes
+# reportes
 class StudentReportSerializer(serializers.ModelSerializer):
     grade = GradeReportSerializer()
 
     class Meta:
         model = Student
-        fields = ['code', 'grade',
+        fields = ['code', 'grade', 'coverage',
                   'schedule', 'monthOwed', 'amountOwed']
+
 
 class UserStudentReportSerializer(serializers.ModelSerializer):
     student = StudentReportSerializer()
