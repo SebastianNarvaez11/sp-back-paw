@@ -96,7 +96,7 @@ class UserStudentReportSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['last_name', 'first_name' 'student']
+        fields = ['last_name', 'first_name', 'student']
         extra_kwargs = {
             'student': {'required': False}
         }
