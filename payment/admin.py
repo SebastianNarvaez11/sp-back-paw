@@ -16,5 +16,15 @@ class PaymentAdmin(ImportExportModelAdmin, admin.ModelAdmin):
         model = PaymentResource
 
 
+class CompromiseResource(resources.ModelResource):
+    class Meta:
+        model = CompromisePay()
+
+
+class CompromiseAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+    class Meta:
+        model = CompromiseResource
+
+
 admin.site.register(Payment, PaymentAdmin)
-admin.site.register(CompromisePay)
+admin.site.register(CompromisePay, CompromiseAdmin)
