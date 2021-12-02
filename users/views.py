@@ -131,7 +131,7 @@ def list_students_debt_app(request):
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def list_students_report(request):
-    users = User.objects.select_related().exclude(deleted=True).exclude(type=1).exclude(type=2).exclude(student__grade=None)
+    users = User.objects.select_related().exclude(type=1).exclude(type=2).exclude(student__grade=None)
     serializer = UserStudentReportSerializer(users, many=True)
     return Response(serializer.data)
 

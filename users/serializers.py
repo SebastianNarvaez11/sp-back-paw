@@ -89,7 +89,7 @@ class StudentReportSerializer(serializers.ModelSerializer):
     class Meta:
         model = Student
         fields = ['code', 'grade', 'coverage',
-                  'schedule', 'monthOwed', 'amountOwed']
+                  'schedule', 'monthOwed', 'amountOwed', 'document', 'phone1', 'attending', 'total_paid']
 
 
 class UserStudentReportSerializer(serializers.ModelSerializer):
@@ -97,7 +97,7 @@ class UserStudentReportSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['last_name', 'first_name', 'student']
+        fields = ['last_name', 'first_name', 'student',  'email', ]
         extra_kwargs = {
             'student': {'required': False}
         }
