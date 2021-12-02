@@ -160,6 +160,7 @@ def update_students(request, pk):
         serializer.save()
         return Response(serializer.data)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
 
 
 # CON ESTA VISTA ESTAMOS OBTENIENDO EL ESTUDIANTE COMPLETO CON PAGOS COMO OBJETO
