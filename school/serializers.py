@@ -22,4 +22,4 @@ class GradeAlterSerializer(serializers.ModelSerializer):
 class GradeReportSerializer(serializers.ModelSerializer):
     class Meta:
         model = Grade
-        fields = ['name']
+        fields = ['name', 'enrollment', 'monthly_pay']

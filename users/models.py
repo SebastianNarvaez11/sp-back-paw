@@ -1,3 +1,4 @@
+from queue import Empty
 from django.db import models
 from base.models import Base
 from school.models import Grade
@@ -73,7 +74,7 @@ class Student(models.Model):
         (2, 'Oct.Nov'),)
 
     id = models.CharField(primary_key=True, blank=True, max_length=40, verbose_name="ID")
-    code = models.CharField('Codigo',max_length=10, unique=True, null=True)
+    code = models.CharField('Codigo',max_length=10, unique=True, null=True,)
     user = models.OneToOneField(User, verbose_name='Usuario', related_name='student', on_delete=models.CASCADE)
     grade = models.ForeignKey(Grade, verbose_name='Grado', on_delete=models.CASCADE,related_name='students', blank=True, null=True)
     phone1 = models.CharField('Telefono 1', max_length=11, null=True, blank=True)
@@ -81,12 +82,15 @@ class Student(models.Model):
     document_type = models.PositiveSmallIntegerField('Tipo de Documento', choices=DOCUMENT_TYPE_CHOICES, default=1)
     document = models.CharField('No. de Documento', max_length=20)
     attending = models.CharField('Acudiente', max_length=100)
+    attending_document = models.CharField('No. de Documento Acudiente', max_length=20)
+    address = models.CharField('Direccion', max_length=20)
     discount = models.IntegerField('% Descuento Mensual', default=0)
     initial_charge = models.PositiveSmallIntegerField('Periodo de Cobro', choices=INITIAL_CHARGE_CHOICES, default=10)
     coverage = models.BooleanField('Cobertura', default=False)
     schedule = models.PositiveSmallIntegerField(
         'Jornada', choices=SCHEDULE_TYPE_CHOICES, default=1)
     note = models.CharField('Nota', default='', max_length=200, blank=True)
+    date_retiro = models.DateField('Fecha de Retiro', null=True, blank=True)
 
     class Meta:
         verbose_name = 'Estudiante'

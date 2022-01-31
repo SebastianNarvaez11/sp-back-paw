@@ -111,7 +111,7 @@ def list_students_grades(request, grade, schedule):
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def list_students_debt(request):
-    users = User.objects.select_related().exclude(deleted=True).exclude(type=1).exclude(type=2).exclude(student__grade=None).exclude(student__coverage=True)
+    users = User.objects.select_related().exclude(deleted=True).exclude(is_active=False).exclude(type=1).exclude(type=2).exclude(student__grade=None).exclude(student__coverage=True)
     serializer = UserStudentDebtSerializer(users, many=True)
     return Response(serializer.data)
 
@@ -131,7 +131,7 @@ def list_students_debt_app(request):
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def list_students_report(request):
-    users = User.objects.select_related().exclude(type=1).exclude(type=2).exclude(student__grade=None)
+    users = User.objects.select_related().exclude(type=1).exclude(type=2).exclude(student__grade=None).exclude(deleted=True)
     serializer = UserStudentReportSerializer(users, many=True)
     return Response(serializer.data)
 
@@ -160,7 +160,6 @@ def update_students(request, pk):
         serializer.save()
         return Response(serializer.data)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
 
 
 # CON ESTA VISTA ESTAMOS OBTENIENDO EL ESTUDIANTE COMPLETO CON PAGOS COMO OBJETO

@@ -22,7 +22,7 @@ class AdminSerializer(serializers.ModelSerializer):
 class StudentListFilterSerializer(serializers.ModelSerializer):
     class Meta:
         model = Student
-        fields = ['id', 'code']
+        fields = ['id', 'code', 'coverage']
 
 # serializer para obtener las datos basicos al inicio para poder filtrar por estudiante
 
@@ -89,7 +89,7 @@ class StudentReportSerializer(serializers.ModelSerializer):
     class Meta:
         model = Student
         fields = ['code', 'grade', 'coverage',
-                  'schedule', 'monthOwed', 'amountOwed', 'document', 'phone1', 'attending', 'total_paid']
+                  'schedule', 'monthOwed', 'amountOwed', 'document', 'phone1', 'attending', 'total_paid', 'address', 'attending_document']
 
 
 class UserStudentReportSerializer(serializers.ModelSerializer):
@@ -97,7 +97,7 @@ class UserStudentReportSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['last_name', 'first_name', 'student',  'email', ]
+        fields = ['last_name', 'first_name', 'student',  'email', 'is_active']
         extra_kwargs = {
             'student': {'required': False}
         }
@@ -119,8 +119,8 @@ class StudentGradeFilterSerializer(serializers.ModelSerializer):
     class Meta:
         model = Student
         fields = ['id', 'user', 'code', 'grade', 'phone1', 'phone2', 'document_type', 'document',
-                  'attending', 'discount', 'initial_charge', 'coverage',
-                  'schedule', 'total_year', 'total_paid', 'monthly_payment', 'monthOwed', 'amountOwed', 'note']
+                  'attending', 'attending_document', 'address', 'discount', 'initial_charge', 'coverage',
+                  'schedule', 'total_year', 'total_paid', 'monthly_payment', 'monthOwed', 'amountOwed', 'note',  'date_retiro']
 
 # serializer para obtener el listado filtrado de estudiantes sin los pagos
 
@@ -153,8 +153,8 @@ class StudentGetSerializer(serializers.ModelSerializer):
     class Meta:
         model = Student
         fields = ['id', 'user', 'grade', 'code', 'phone1', 'phone2', 'document_type', 'document',
-                  'attending', 'discount', 'initial_charge', 'coverage',
-                  'schedule', 'total_year', 'total_paid', 'monthly_payment', 'monthOwed', 'amountOwed', 'payments', 'compromises', 'note']
+                  'attending', 'attending_document', 'address', 'discount', 'initial_charge', 'coverage',
+                  'schedule', 'total_year', 'total_paid', 'monthly_payment', 'monthOwed', 'amountOwed', 'payments', 'compromises', 'note', 'date_retiro']
 
 
 # serializer para CREAR Y ACTUALIZAR los students ya que se necesita solo el id del grado y usuario para relacionarlo
@@ -169,8 +169,8 @@ class StudentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Student
         fields = ['id', 'user', 'grade', 'document_type', 'document', 'code', 'phone1', 'phone2',
-                  'attending', 'discount', 'initial_charge', 'coverage', 'schedule',
-                  'total_year', 'total_paid', 'monthly_payment', 'monthOwed', 'amountOwed', 'note']
+                  'attending', 'attending_document', 'address', 'discount', 'initial_charge', 'coverage', 'schedule',
+                  'total_year', 'total_paid', 'monthly_payment', 'monthOwed', 'amountOwed', 'note', 'date_retiro']
 
 
 # SERIALIZER PARA OBTENER USUARIOS AL INICIAR SECCION PARA QUE
