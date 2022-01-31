@@ -28,7 +28,7 @@ SECRET_KEY = '49d3i*r*_w+^g+_$&()hesq%2$77!qq8r(@4u!k2)3_$5e@2u6'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['schoolpay.pythonanywhere.com',
+ALLOWED_HOSTS = ['schoolpay.pythonanywhere.com', 'spacademico.pythonanywhere.com',
                  ".herokuapp.com", 'localhost', '127.0.0.1']
 
 
