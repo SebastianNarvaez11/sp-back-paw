@@ -80,16 +80,16 @@ class Student(models.Model):
     phone1 = models.CharField('Telefono 1', max_length=11, null=True, blank=True)
     phone2 = models.CharField('Telefono 2', max_length=11, null=True, blank=True)
     document_type = models.PositiveSmallIntegerField('Tipo de Documento', choices=DOCUMENT_TYPE_CHOICES, default=1)
-    document = models.CharField('No. de Documento', max_length=20)
+    document = models.CharField('No. de Documento', max_length=100)
     attending = models.CharField('Acudiente', max_length=100)
-    attending_document = models.CharField('No. de Documento Acudiente', max_length=20)
-    address = models.CharField('Direccion', max_length=20)
+    attending_document = models.CharField('No. de Documento Acudiente', max_length=100)
+    address = models.CharField('Direccion', max_length=100)
     discount = models.IntegerField('% Descuento Mensual', default=0)
     initial_charge = models.PositiveSmallIntegerField('Periodo de Cobro', choices=INITIAL_CHARGE_CHOICES, default=10)
     coverage = models.BooleanField('Cobertura', default=False)
     schedule = models.PositiveSmallIntegerField(
         'Jornada', choices=SCHEDULE_TYPE_CHOICES, default=1)
-    note = models.CharField('Nota', default='', max_length=200, blank=True)
+    note = models.CharField('Nota', default='', max_length=300, blank=True)
     date_retiro = models.DateField('Fecha de Retiro', null=True, blank=True)
 
     class Meta:
